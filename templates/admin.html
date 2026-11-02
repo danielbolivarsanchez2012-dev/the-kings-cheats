@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>The Kings Cheats | Panel</title>
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --card: #141419;
+    --border: #2a2a35;
+    --text: #e2e2e8;
+    --gold: #ffd700;
+    --red: #ff4444;
+    --green: #00c851;
+  }
+  * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+  body { background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+  
+  .header {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 30px;
+  }
+  .header h1 {
+    margin: 0;
+    color: var(--gold);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    font-size: 32px;
+    letter-spacing: 2px;
+  }
+  .header p { color: #888; margin-top: 5px; }
+  
+  .container { max-width: 1200px; margin: 0 auto; display: flex; gap: 20px; flex-wrap: wrap; }
+  
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    flex: 1;
+    min-width: 300px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  }
+  
+  h3 { margin-top: 0; color: var(--gold); border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+  
+  .form-group { margin-bottom: 15px; }
+  .form-group label { display: block; font-size: 13px; color: #aaa; margin-bottom: 5px; }
+  input, select {
+    width: 100%;
+    background: #0a0a0c;
+    border: 1px solid var(--border);
+    color: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  input:focus, select:focus { outline: none; border-color: var(--gold); }
+  
+  button {
+    width: 100%;
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  button:hover { background: #e6c200; transform: translateY(-2px); }
+  
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 20px; }
+  th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--gold); font-weight: 600; text-transform: uppercase; font-size: 11px; }
+  
+  .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+  .badge.active { background: rgba(0, 200, 81, 0.2); color: var(--green); }
+  .badge.off { background: rgba(255, 68, 68, 0.2); color: var(--red); }
+  
+  .btn-small { padding: 6px 10px; font-size: 12px; width: auto; margin-right: 5px; }
+  .btn-danger { background: var(--red); color: white; }
+  .btn-danger:hover { background: #cc0000; }
+  
+  /* Modal para mensaje */
+  .modal {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center;
+  }
+  .modal-content {
+    background: var(--card); padding: 25px; border-radius: 10px; width: 400px;
+    border: 1px solid var(--border);
+  }
+  .modal-content h4 { margin-top: 0; color: var(--gold); }
+  .modal-actions { display: flex; gap: 10px; margin-top: 15px; }
+  
+  .key-display {
+    background: #0a0a0c; padding: 15px; border-radius: 6px; text-align: center;
+    color: var(--gold); font-family: monospace; font-size: 18px; letter-spacing: 2px;
+    border: 1px dashed var(--gold); margin-top: 15px; display: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>👑 THE KINGS CHEATS</h1>
+  <p>Sistema de Gestión de Licencias</p>
+</div>
+
+<div class="container">
+  <!-- Generador -->
+  <div class="card">
+    <h3>Crear Nueva Licencia</h3>
+    <div class="form-group">
+      <label>Usuario de Roblox</label>
+      <input id="username" placeholder="Ej: RexTheKing123">
+    </div>
+    <div class="form-group">
+      <label>Discord / Contacto (Opcional)</label>
+      <input id="discord" placeholder="Ej: rey#1234">
+    </div>
+    <div class="form-group">
+      <label>Tipo de Plan</label>
+      <select id="plan">
+        <option value="1">1 Día (Prueba - Gratis)</option>
+        <option value="3">3 Días</option>
+        <option value="7">7 Días</option>
+        <option value="30">30 Días</option>
+        <option value="0">Permanente</option>
+      </select>
+    </div>
+    <button onclick="createKey()">Generar Key</button>
+    
+    <div id="keyResult" class="key-display">
+      <div style="font-size:12px;color:#888;margin-bottom:5px">KEY GENERADA:</div>
+      <span id="newKeyText"></span>
+      <button class="btn-small" style="margin-top:10px;background:#333;color:white" onclick="copyKey()">Copiar</button>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div class="card" style="flex: 2;">
+    <h3>Base de Datos de Clientes</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Usuario Roblox</th>
+          <th>Key</th>
+          <th>Tiempo Restante</th>
+          <th>Usos</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal para Desactivar -->
+<div class="modal" id="modalDeactivate">
+  <div class="modal-content">
+    <h4>Desactivar Licencia</h4>
+    <p style="font-size:13px;color:#888">Escribe el motivo. El usuario verá este mensaje cuando intente usar la key.</p>
+    <div class="form-group">
+      <input type="hidden" id="deactivateKey">
+      <input id="deactivateMsg" placeholder="Ej: Compartió la key con otra persona.">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-danger" onclick="confirmDeactivate()">Desactivar</button>
+      <button style="background:#333;color:white" onclick="closeModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentNewKey = "";
+
+async function loadKeys() {
+  const res = await fetch('/api/keys');
+  const data = await res.json();
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  
+  if (Object.keys(data).length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#666">No hay clientes aún</td></tr>';
+    return;
+  }
+  
+  for (const [key, info] of Object.entries(data)) {
+    const active = info.active;
+    
+    // Calcular tiempo restante
+    let timeLeft = "Permanente";
+    if (info.expires_at) {
+      const exp = new Date(info.expires_at);
+      const now = new Date();
+      if (exp < now) {
+        timeLeft = "⏰ Expirada";
+      } else {
+        const diff = exp - now;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        timeLeft = `${days}d ${hours}h`;
+      }
+    }
+    
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${info.user_roblox || 'Desconocido'}</td>
+      <td style="font-family:monospace;color:var(--gold)">${key}</td>
+      <td>${timeLeft}</td>
+      <td>${info.uses || 0}</td>
+      <td><span class="badge ${active ? 'active' : 'off'}">${active ? 'ACTIVA' : 'OFF'}</span></td>
+      <td>
+        ${active 
+          ? `<button class="btn-small btn-danger" onclick="openDeactivate('${key}')">Desactivar</button>`
+          : `<button class="btn-small" style="background:var(--green);color:white" onclick="reactivate('${key}')">Reactivar</button>`
+        }
+        <button class="btn-small" style="background:#333;color:white" onclick="deleteKey('${key}')">Eliminar</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+
+async function createKey() {
+  const user = document.getElementById('username').value.trim();
+  if (!user) return alert("Escribe el nombre de usuario de Roblox");
+  
+  const plan = document.getElementById('plan').value;
+  const discord = document.getElementById('discord').value;
+  
+  const res = await fetch('/api/keys/create', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ 
+      user_roblox: user, 
+      user_discord: discord,
+      days: parseInt(plan)
+    })
+  });
+  
+  const data = await res.json();
+  
+  currentNewKey = data.key;
+  document.getElementById('newKeyText').textContent = data.key;
+  document.getElementById('keyResult').style.display = 'block';
+  
+  document.getElementById('username').value = '';
+  document.getElementById('discord').value = '';
+  
+  loadKeys();
+}
+
+function copyKey() {
+  navigator.clipboard.writeText(currentNewKey);
+  alert("Key copiada al portapapeles");
+}
+
+// Desactivar
+function openDeactivate(key) {
+  document.getElementById('deactivateKey').value = key;
+  document.getElementById('modalDeactivate').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('modalDeactivate').style.display = 'none';
+  document.getElementById('deactivateMsg').value = '';
+}
+
+async function confirmDeactivate() {
+  const key = document.getElementById('deactivateKey').value;
+  const msg = document.getElementById('deactivateMsg').value || "Desactivada por el administrador.";
+  
+  await fetch(`/api/keys/${key}/toggle`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ active: false, message: msg })
+  });
+  
+  closeModal();
+  loadKeys();
+}
+
+// Reactivar
+async function reactivate(key) {
+  if (!confirm("¿Seguro que quieres reactivar esta key?")) return;
+  await fetch(`/api/keys/${key}/toggle`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ active: true })
+  });
+  loadKeys();
+}
+
+// Eliminar
+async function deleteKey(key) {
+  if (!confirm("¿Eliminar esta key permanentemente?")) return;
+  await fetch(`/api/keys/${key}`, { method: 'DELETE' });
+  loadKeys();
+}
+
+loadKeys();
+</script>
+</body>
+</html>
