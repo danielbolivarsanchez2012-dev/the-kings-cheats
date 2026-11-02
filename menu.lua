@@ -106,7 +106,7 @@ FOVCircle.Radius = Config.FOVRadius
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "TheKingCheatGUI"
 ScreenGui.Parent = CoreGui
-ScreenGui.ResetOnSpawn = true
+ScreenGui.ResetOnSpawn = false
 
 local MainFrame = Instance.new("Frame")
 MainFrame.Size = UDim2.new(0, 560, 0, 520)
