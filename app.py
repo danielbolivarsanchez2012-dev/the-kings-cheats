@@ -121,7 +121,8 @@ def create_key():
         "user_roblox": data.get("user_roblox", "Desconocido"),
         "user_discord": data.get("user_discord", ""),
         "plan": data.get("plan", "Personalizado"),
-        "message": ""
+        "message": "",
+        "admin_note": ""
     }
     
     try:
